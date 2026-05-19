@@ -6,6 +6,7 @@ Aura is a static browser-only ambient soundscape and generative particle visuali
 
 This app is designed for Netlify static hosting.
 
+- Production URL: https://aura-zen-app.netlify.app
 - Publish directory: `.`
 - Build command: none
 - Security headers: `netlify.toml`
