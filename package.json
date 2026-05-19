@@ -1,0 +1,12 @@
+{
+  "name": "aura-zen-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aura, a browser-only ambient soundscape and generative canvas visualizer.",
+  "type": "module",
+  "scripts": {
+    "verify:production": "node scripts/verify-production.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

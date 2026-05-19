@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aura: A modern, minimalistic ambient soundscape generator and interactive particle visualizer designed for focus, relaxation, and box breathing.">
+  <title>Aura | Interactive Zen Soundscape & Generative Visualizer</title>
+  
+  <!-- Modern Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Core Styles -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- Dynamic CSS Morphing Mesh Blobs Backdrop -->
+  <div id="mesh-gradients-container">
+    <div class="mesh-blob blob-1"></div>
+    <div class="mesh-blob blob-2"></div>
+    <div class="mesh-blob blob-3"></div>
+  </div>
+
+  <!-- Background Particle Canvas -->
+  <canvas id="visualizer-canvas"></canvas>
+  
+  <!-- Subtle organic texture filter -->
+  <div id="noise-overlay"></div>
+  
+  <!-- Interactive Cursor Spotlight lighting (Follows mouse behind UI) -->
+  <div id="cursor-spotlight"></div>
+
+  <!-- Header / Ambient Logo -->
+  <header class="app-header blur-in">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      <h1>Aura</h1>
+    </div>
+    <div class="subtitle">interactive ambient visualizer</div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Breathing Space / Center Ring -->
+    <section id="breathing-section" class="breathing-container hidden">
+      <div class="breathing-ring-wrapper">
+        <!-- Outer glowing gradient ring -->
+        <div class="breathing-ring-outer"></div>
+        
+        <!-- Premium Neon SVG Dial Progress Ring -->
+        <svg class="breathing-svg-dial" viewBox="0 0 200 200">
+          <circle class="dial-bg" cx="100" cy="100" r="88"></circle>
+          <circle id="dial-progress-bar" class="dial-progress" cx="100" cy="100" r="88" transform="rotate(-90 100 100)"></circle>
+        </svg>
+        
+        <!-- Inner glass core with timer text -->
+        <div class="breathing-ring-inner">
+          <div class="breathing-content">
+            <span id="breath-instruction">Inhale</span>
+            <span id="breath-timer">4</span>
+          </div>
+        </div>
+      </div>
+      <div class="breathing-selector">
+        <button id="btn-breathing-box" class="active">Box Breathing (4-4-4-4)</button>
+        <button id="btn-breathing-relax">Deep Relax (4-7-8)</button>
+      </div>
+    </section>
+
+    <!-- Sidebar Left: Soundscape Presets -->
+    <aside id="presets-panel" class="glass-panel left-panel blur-in">
+      <div class="panel-header">
+        <h2>Soundscapes</h2>
+        <p>Select your visual & sound journey</p>
+      </div>
+      <div class="presets-list">
+        <button class="preset-btn active" data-preset="aurora">
+          <span class="preset-icon aurora-icon"></span>
+          <span class="preset-name">Midnight Aurora</span>
+          <span class="preset-desc">Cosmic green & violet drone, space wind, slow tempo</span>
+        </button>
+        <button class="preset-btn" data-preset="flare">
+          <span class="preset-icon flare-icon"></span>
+          <span class="preset-name">Solar Flare</span>
+          <span class="preset-desc">Warm golds, solar pulses, crackling static, energetic</span>
+        </button>
+        <button class="preset-btn" data-preset="ocean">
+          <span class="preset-icon ocean-icon"></span>
+          <span class="preset-name">Deep Ocean</span>
+          <span class="preset-desc">Cool cyan & teal, sub-aquatic drone, soothing rain noise</span>
+        </button>
+        <button class="preset-btn" data-preset="nebula">
+          <span class="preset-icon nebula-icon"></span>
+          <span class="preset-name">Cosmic Nebula</span>
+          <span class="preset-desc">Deep magenta & purple, star sweeps, dual binaural pulses</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Sidebar Right: Audio & Visual Details -->
+    <aside id="settings-panel" class="glass-panel right-panel blur-in">
+      <div class="panel-header">
+        <h2>Customizer</h2>
+        <p>Calibrate your sensory environment</p>
+      </div>
+
+      <div class="settings-group">
+        <h3>Audio Balancer</h3>
+        <div class="control-row">
+          <label for="slider-drone">Ambient Drone</label>
+          <input type="range" id="slider-drone" min="0" max="1" step="0.01" value="0.55">
+        </div>
+        <div class="control-row">
+          <label for="slider-nature">Nature/Wind Noise</label>
+          <input type="range" id="slider-nature" min="0" max="1" step="0.01" value="0.25">
+        </div>
+        <div class="control-row">
+          <label for="slider-chimes">Star Chimes</label>
+          <input type="range" id="slider-chimes" min="0" max="1" step="0.01" value="0.45">
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Visual Parameters</h3>
+        <div class="control-row">
+          <label for="slider-particles">Cosmic Dust Count</label>
+          <input type="range" id="slider-particles" min="50" max="400" step="10" value="200">
+        </div>
+        <div class="control-row">
+          <label for="slider-speed">Flow Velocity</label>
+          <input type="range" id="slider-speed" min="0.2" max="3" step="0.1" value="1.0">
+        </div>
+        <div class="control-row">
+          <label for="slider-attraction">Gravity Attraction</label>
+          <input type="range" id="slider-attraction" min="0" max="2" step="0.1" value="0.8">
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Melody Harmony</h3>
+        <div class="control-row">
+          <label for="select-scale">Musical Scale</label>
+          <select id="select-scale">
+            <option value="pentatonicMajor">Peaceful (Pentatonic Major)</option>
+            <option value="pentatonicMinor">Mysterious (Pentatonic Minor)</option>
+            <option value="phrygian">Ethereal (Phrygian Dominant)</option>
+            <option value="lydian">Dreamy (Lydian)</option>
+          </select>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Bottom Floating Control Center -->
+  <footer class="control-center blur-in">
+    <button id="btn-audio-toggle" class="control-btn pulse-glow" aria-label="Activate Audio Engine">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      </svg>
+      <span>Sound Off</span>
+    </button>
+
+    <button id="btn-breathing-toggle" class="control-btn" aria-label="Toggle Breathing Exercises">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8"></path>
+      </svg>
+      <span>Breath Work</span>
+    </button>
+
+    <button id="btn-zen-mode" class="control-btn" aria-label="Toggle Fullscreen Zen Mode">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+      </svg>
+      <span>Zen Mode</span>
+    </button>
+
+    <button id="btn-panel-toggle" class="control-btn" aria-label="Toggle Side Settings Panels">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="21" x2="4" y2="14"></line>
+        <line x1="4" y1="10" x2="4" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12" y2="3"></line>
+        <line x1="20" y1="21" x2="20" y2="16"></line>
+        <line x1="20" y1="12" x2="20" y2="3"></line>
+        <line x1="1" y1="14" x2="7" y2="14"></line>
+        <line x1="9" y1="8" x2="15" y2="8"></line>
+        <line x1="17" y1="16" x2="23" y2="16"></line>
+      </svg>
+      <span>Customize</span>
+    </button>
+  </footer>
+
+  <!-- Zen Mode Floating HUD Hint -->
+  <div id="zen-hud" class="hud-hint">
+    <span>Zen Mode Active. Press ESC or tap anywhere to return controls.</span>
+  </div>
+
+  <!-- Gesture Recognition Floating Glass Alert -->
+  <div id="gesture-alert" class="gesture-alert-hud hidden">
+    <span class="gesture-icon"></span>
+    <span class="gesture-text"></span>
+  </div>
+
+  <!-- Audio Context Activation Shield -->
+  <div id="audio-shield" class="shield-container">
+    <div class="shield-content glass-panel">
+      <h1 class="logo-font">Welcome to Aura</h1>
+      <p class="description-font">A sensory space synthesized entirely in your browser. We generate organic frequencies, dynamic air friction soundscapes, and procedural chime harmonies in real-time, side by side with particle simulations.</p>
+      <button id="btn-enter-aurora" class="enter-btn pulse-glow">Begin Journey</button>
+      <span class="subtext">Best experienced with headphones</span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="audio.js"></script>
+  <script src="canvas.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
