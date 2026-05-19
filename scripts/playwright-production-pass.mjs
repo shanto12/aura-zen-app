@@ -104,6 +104,10 @@ try {
   await page.locator('body.zen-mode').waitFor({ state: 'detached', timeout: 10000 });
   pass('zen mode escape exit');
 
+  await clickText(page, 'Breath Work');
+  await page.locator('#breathing-section.hidden').waitFor({ timeout: 10000 });
+  pass('breathing workflow stopped before canvas gesture');
+
   const box = await page.locator('#visualizer-canvas').boundingBox();
   if (box) {
     const start = { x: box.x + box.width * 0.35, y: box.y + box.height * 0.35 };

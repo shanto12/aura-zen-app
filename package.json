@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "verify:production": "node scripts/verify-production.mjs",
-    "verify:ui": "npx --yes --package playwright node scripts/playwright-production-pass.mjs"
+    "verify:ui": "node scripts/playwright-production-pass.mjs"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
 }
