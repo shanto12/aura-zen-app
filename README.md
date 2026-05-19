@@ -16,6 +16,7 @@ After a production deploy, run:
 
 ```bash
 npm run verify:production -- https://your-site.netlify.app
+npm run verify:ui -- https://your-site.netlify.app
 npm audit --omit=dev --audit-level=moderate
 ```
 

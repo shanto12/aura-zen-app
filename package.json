@@ -5,7 +5,8 @@
   "description": "Aura, a browser-only ambient soundscape and generative canvas visualizer.",
   "type": "module",
   "scripts": {
-    "verify:production": "node scripts/verify-production.mjs"
+    "verify:production": "node scripts/verify-production.mjs",
+    "verify:ui": "npx --yes --package playwright node scripts/playwright-production-pass.mjs"
   },
   "dependencies": {},
   "devDependencies": {}
